@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Downloader</title>
+  </head>
+  <body>
+    <button onclick="downloadVideo(myCallback)">Download Video(Callback)</button>
+    <button onclick="downloadVideoWithPromise()">Download Video(Promise)</button>
+    <button onclick="downloadVideoWithAsyncAwait()">Download Video(Async/Await)</button>
+
+    <script type="text/javascript">
+      function downloadVideo(callback) {
+        let videoUrl = "https://www.videezy.com/download/168?download_auth_hash=60ce8425&pro=false";
+
+        let tag = document.createElement("a");
+        tag.href = videoUrl;
+        tag.download = "video.mp4";
+        document.body.appendChild(tag);
+        tag.click();
+        document.body.removeChild(tag);
+        callback();
+      }
+
+      // Define the callback function
+      function myCallback() {
+        alert("Success!");
+      }
+
+      function downloadVideoWithPromise() {
+        let videoUrl = "https://www.videezy.com/download/4605?download_auth_hash=68e89083&pro=false";
+
+        return new Promise((resolve, reject) => {
+          let tag = document.createElement("a");
+          tag.href = videoUrl;
+          tag.download = "video_promise.mp4";
+
+          tag.addEventListener("click", () => {
+            resolve();
+          });
+
+          document.body.appendChild(tag);
+          tag.click();
+          document.body.removeChild(tag);
+        })
+          .then(() => {
+            alert("Download with Promise: Success!");
+          })
+          .catch((error) => {
+            console.error("Download with Promise: Error", error);
+          });
+      }
+
+      async function downloadVideoWithAsyncAwait() {
+        let videoUrl = "https://www.videezy.com/download/168?download_auth_hash=60ce8425&pro=false";
+
+        try {
+          let tag = document.createElement("a");
+          tag.href = videoUrl;
+          tag.download = "video_async_await.mp4";
+
+          document.body.appendChild(tag);
+          tag.click();
+          document.body.removeChild(tag);
+
+          await new Promise((resolve) => setTimeout(resolve, 100));
+
+          alert("Download with Async/Await: Success!");
+        } catch (error) {
+          console.error("Download with Async/Await: Error", error);
+        }
+      }
+    </script>
+  </body>
+</html>
